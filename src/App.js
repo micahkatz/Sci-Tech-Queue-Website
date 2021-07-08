@@ -5,7 +5,7 @@ import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { GLOBALS } from './globals';
 Amplify.configure(awsconfig);
 function App() {
@@ -20,8 +20,10 @@ function App() {
                         position: 'absolute',
                     }}
                 />
-                <Route path={'/home'} component={Home} />
-                <Route path={'/admin'} component={Login} />
+                <Switch>
+                    <Route path={'/admin'} component={Login} />
+                    <Route path={'/'} component={Home} />
+                </Switch>
             </div>
         </Router>
     );
