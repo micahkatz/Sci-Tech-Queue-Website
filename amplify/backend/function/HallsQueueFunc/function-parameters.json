@@ -1,0 +1,12 @@
+{
+    "permissions": {
+        "storage": {
+            "hallsqueuedb": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}

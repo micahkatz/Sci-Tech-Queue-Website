@@ -1,0 +1,5 @@
+{
+    "tableName": "HallsQueue",
+    "partitionKeyName": "id",
+    "partitionKeyType": "S"
+}

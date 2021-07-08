@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/hallsqueue",
+            "lambdaFunction": "HallsQueueFunc",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "HallsQueueApi",
+    "apiName": "HallsQueueApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "HallsQueueFunc"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "sci-tech-queue-dev-20190720232039-authRole",
+        "unAuthRoleName": "sci-tech-queue-dev-20190720232039-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "HallsQueueFunc",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
