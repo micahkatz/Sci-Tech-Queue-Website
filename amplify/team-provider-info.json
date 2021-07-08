@@ -1,14 +1,39 @@
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "sci-tech-queue-dev-20190720232039-authRole",
-            "UnauthRoleArn": "arn:aws:iam::779616027319:role/sci-tech-queue-dev-20190720232039-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::779616027319:role/sci-tech-queue-dev-20190720232039-authRole",
-            "Region": "us-east-1",
-            "DeploymentBucketName": "sci-tech-queue-dev-20190720232039-deployment",
-            "UnauthRoleName": "sci-tech-queue-dev-20190720232039-unauthRole",
-            "StackName": "sci-tech-queue-dev-20190720232039",
-            "StackId": "arn:aws:cloudformation:us-east-1:779616027319:stack/sci-tech-queue-dev-20190720232039/83e41e90-ab66-11e9-bba4-0a456a010dd4"
-        }
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "sci-tech-queue-dev-20190720232039-authRole",
+      "UnauthRoleArn": "arn:aws:iam::779616027319:role/sci-tech-queue-dev-20190720232039-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::779616027319:role/sci-tech-queue-dev-20190720232039-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "sci-tech-queue-dev-20190720232039-deployment",
+      "UnauthRoleName": "sci-tech-queue-dev-20190720232039-unauthRole",
+      "StackName": "sci-tech-queue-dev-20190720232039",
+      "StackId": "arn:aws:cloudformation:us-east-1:779616027319:stack/sci-tech-queue-dev-20190720232039/83e41e90-ab66-11e9-bba4-0a456a010dd4"
     }
+  },
+  "scitech": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-sci-tech-queue-scitech-143846-authRole",
+      "UnauthRoleArn": "arn:aws:iam::779616027319:role/amplify-sci-tech-queue-scitech-143846-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::779616027319:role/amplify-sci-tech-queue-scitech-143846-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
+      "UnauthRoleName": "amplify-sci-tech-queue-scitech-143846-unauthRole",
+      "StackName": "amplify-sci-tech-queue-scitech-143846",
+      "StackId": "arn:aws:cloudformation:us-east-1:779616027319:stack/amplify-sci-tech-queue-scitech-143846/1ec566f0-e024-11eb-bc50-0a90b79301c3",
+      "AmplifyAppId": "d2316j22u9dggt"
+    },
+    "categories": {
+      "function": {
+        "HallsQueueFunc": {
+          "deploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
+          "s3Key": "amplify-builds/HallsQueueFunc-536e5235313438592f67-build.zip"
+        },
+        "AlertsFunc": {
+          "deploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
+          "s3Key": "amplify-builds/AlertsFunc-396168476e32356c7a41-build.zip"
+        }
+      }
+    }
+  }
 }

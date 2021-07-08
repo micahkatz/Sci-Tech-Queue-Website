@@ -12,6 +12,12 @@
     "storagehallsqueuedbArn": {
       "Type": "String",
       "Default": "storagehallsqueuedbArn"
+    },
+    "deploymentBucketName": {
+      "Type": "String"
+    },
+    "s3Key": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -76,8 +82,12 @@
         "Runtime": "nodejs12.x",
         "Timeout": "25",
         "Code": {
-          "S3Bucket": "sci-tech-queue-dev-20190720232039-deployment",
-          "S3Key": "amplify-builds/HallsQueueFunc-1625769665-latest-build.zip"
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": {
+            "Ref": "s3Key"
+          }
         }
       }
     },
