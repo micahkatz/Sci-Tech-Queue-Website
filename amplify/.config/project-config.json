@@ -1,17 +1,17 @@
 {
-    "projectName": "sci-tech-queue",
-    "version": "2.0",
-    "frontend": "javascript",
-    "javascript": {
-        "framework": "react",
-        "config": {
-            "SourceDir": "src",
-            "DistributionDir": "build",
-            "BuildCommand": "npm run-script build",
-            "StartCommand": "yarn start"
-        }
-    },
-    "providers": [
-        "awscloudformation"
-    ]
+  "projectName": "sci-tech-queue",
+  "version": "3.1",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "react",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "build",
+      "BuildCommand": "npm run-script build",
+      "StartCommand": "yarn start"
+    }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
 }
