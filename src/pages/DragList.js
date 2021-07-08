@@ -26,7 +26,7 @@ const hallFormParams = {
     definitions: {
         unitList: {
             type: 'string',
-            enum: ['Kilobytes', 'Megabytes', 'Gigabytes', 'Terabytes'],
+            enum: GLOBALS.gradeLevels.all,
         },
     },
     title: 'New Hall',
@@ -109,6 +109,32 @@ export default class DragList extends Component {
     componentDidMount() {
         this.getHalls();
     }
+    isLowerCamp(hallsArray) {
+        return hallsArray.filter((hall) => {
+            const unit = hall.unit.replace(/\s+/g, '').toLowerCase();
+            var isLower = false;
+            GLOBALS.gradeLevels.lower.forEach((u) => {
+                // console.log({ unit, u: u.toLowerCase() });
+                if (unit === u.toLowerCase()) {
+                    isLower = true;
+                }
+            });
+            return isLower;
+        });
+    }
+    isUpperCamp(hallsArray) {
+        return hallsArray.filter((hall) => {
+            const unit = hall.unit.replace(/\s+/g, '').toLowerCase();
+            var isUpper = false;
+            GLOBALS.gradeLevels.upper.forEach((u) => {
+                // console.log({ unit, u: u.toLowerCase() });
+                if (unit === u.toLowerCase()) {
+                    isUpper = true;
+                }
+            });
+            return isUpper;
+        });
+    }
     getHalls() {
         GetHalls().then((res) => {
             if (res) {
@@ -118,20 +144,8 @@ export default class DragList extends Component {
                 });
                 this.setState({
                     halls: hallsArray,
-                    lowerHalls: hallsArray.filter(
-                        (hall) =>
-                            hall.unit.replace(/\s+/g, '').toLowerCase() ===
-                                'kilobytes' ||
-                            hall.unit.replace(/\s+/g, '').toLowerCase() ===
-                                'megabytes'
-                    ),
-                    upperHalls: hallsArray.filter(
-                        (hall) =>
-                            hall.unit.replace(/\s+/g, '').toLowerCase() ===
-                                'gigabytes' ||
-                            hall.unit.replace(/\s+/g, '').toLowerCase() ===
-                                'terabytes'
-                    ),
+                    lowerHalls: this.isLowerCamp(hallsArray),
+                    upperHalls: this.isUpperCamp(hallsArray),
                 });
             } else {
                 this.setState({
