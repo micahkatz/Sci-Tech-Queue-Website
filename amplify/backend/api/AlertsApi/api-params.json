@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "name": "/prod/alerts",
+      "lambdaFunction": "AlertsFunc",
+      "privacy": {
+        "open": true
+      },
+      "policyResourceName": "/prod/alerts"
+    }
+  ],
+  "resourceName": "AlertsApi",
+  "apiName": "AlertsApi",
+  "functionArns": [
+    {
+      "lambdaFunction": "AlertsFunc"
+    }
+  ],
+  "privacy": {
+    "auth": 0,
+    "unauth": 0,
+    "authRoleName": "amplify-sci-tech-queue-scitech-143846-authRole",
+    "unAuthRoleName": "amplify-sci-tech-queue-scitech-143846-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "AlertsFunc",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}

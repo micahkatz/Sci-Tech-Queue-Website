@@ -20,6 +20,10 @@
         "HallsFunc": {
           "deploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
           "s3Key": "amplify-builds/HallsFunc-39456f62584b7a2f2f71-build.zip"
+        },
+        "AlertsFunc": {
+          "deploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
+          "s3Key": "amplify-builds/AlertsFunc-2f65346d59454f796c4a-build.zip"
         }
       }
     }

@@ -3,6 +3,10 @@
     "Halls": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
+    },
+    "Alerts": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
     }
   },
   "function": {
@@ -40,6 +44,25 @@
           }
         }
       ]
+    },
+    "AlertsFunc": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "Alerts",
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "attributeEnvMap": {
+            "Name": "TABLE_NAME",
+            "Arn": "TABLE_ARN"
+          }
+        }
+      ]
     }
   },
   "api": {
@@ -50,6 +73,20 @@
         {
           "category": "function",
           "resourceName": "HallsFunc",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "AlertsApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "AlertsFunc",
           "attributes": [
             "Name",
             "Arn"
