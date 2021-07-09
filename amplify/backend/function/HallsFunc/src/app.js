@@ -137,6 +137,32 @@ app.post(path + '/call', function (req, res) {
         }
     });
 });
+/********************************
+ * HTTP Get method for uncalling a hall *
+ ********************************/
+
+app.post(path + '/uncall', function (req, res) {
+    const { id } = req.query;
+
+    let updateParams = {
+        TableName: tableName,
+        Key: { id },
+        UpdateExpression: 'set isCalled = :r',
+        ExpressionAttributeValues: {
+            ':r': false,
+        },
+    };
+
+    dynamodb.update(updateParams, (err, data) => {
+        console.log({ err, data });
+        if (err) {
+            res.statusCode = 500;
+            res.json({ error: 'Could not load items: ' + err });
+        } else {
+            res.json({ data });
+        }
+    });
+});
 
 /************************************
  * HTTP put method for insert object *
