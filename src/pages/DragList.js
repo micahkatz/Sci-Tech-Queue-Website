@@ -33,14 +33,15 @@ const hallFormParams = {
     required: ['name', 'unit', 'grade'],
     type: 'object',
     properties: {
-        string: {
+        name: {
             type: 'string',
             title: 'Name',
         },
-        Unit: {
+        unit: {
             $ref: '#/definitions/unitList',
+            title: 'Unit',
         },
-        Grade: {
+        grade: {
             type: 'string',
             title: 'Grade',
         },
@@ -136,9 +137,9 @@ export default class DragList extends Component {
         });
     }
     getHalls() {
-        GetHalls().then((res) => {
-            if (res) {
-                var hallsArray = res.data.Items;
+        GetHalls().then(({data}) => {
+            if (data) {
+                var hallsArray = data.Items;
                 hallsArray.sort((firstItem, secondItem) => {
                     return firstItem.position - secondItem.position;
                 });
@@ -295,10 +296,12 @@ export default class DragList extends Component {
                     uiSchema={hallFormUI}
                     className={'form form-wide'}
                     buttonText='Add Hall'
-                    onSubmit={(data) =>
+                    onSubmit={(data) => {
+                        console.log({data})
                         NewHall(data.formData, this.state.halls.length).then(
                             this.getHalls
-                        )
+                        ).catch(e => console.error(e))
+                    }
                     }
                 />
                 <Form

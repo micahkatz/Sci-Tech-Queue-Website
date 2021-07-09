@@ -1,26 +1,13 @@
 import { API } from 'aws-amplify';
 var uuid4 = require('uuid4');
-let apiName = 'HallsQueueApi'
-let path = '/hallsqueue'
-export async function NewHall(data, arrayLength) {
-  var id = uuid4();
-  try {
-    const response = await API.put(apiName, path, {
-      body: {...data, id, called: false, position: arrayLength}
-    });
-  } catch (e) {
-    console.log(e)
-  }
-}
+let apiName = 'HallsApi'
+let path = '/prod/halls'
 
-export async function GetHalls() {
-  try {
-    // const response = await API.post('SciTechQueueApi', path);
-    const response = await API.get(apiName, path + '/feed');
-    return response
-  } catch (e) {
-    console.log(e)
-  }
+export const NewHall = async(data, arrayLength) => API.put(apiName, path, {body: {...data, id: uuid4(), called: false, position: arrayLength}});
+export const GetHalls = async() => {
+    const response = await API.get(apiName, path + '/feed'); 
+    console.log({getHallResponse: response})
+    return response;
 }
 
 export async function DelHall(hallId, hallOrder) {

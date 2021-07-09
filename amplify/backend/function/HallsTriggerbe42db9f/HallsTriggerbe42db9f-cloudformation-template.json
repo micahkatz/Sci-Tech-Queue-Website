@@ -5,13 +5,17 @@
     "env": {
       "Type": "String"
     },
-    "storageQueueAlertsDbName": {
+    "storageHallsName": {
       "Type": "String",
-      "Default": "storageQueueAlertsDbName"
+      "Default": "storageHallsName"
     },
-    "storageQueueAlertsDbArn": {
+    "storageHallsArn": {
       "Type": "String",
-      "Default": "storageQueueAlertsDbArn"
+      "Default": "storageHallsArn"
+    },
+    "storageHallsStreamArn": {
+      "Type": "String",
+      "Default": "storageHallsArn"
     },
     "deploymentBucketName": {
       "Type": "String"
@@ -42,12 +46,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "AlertsFunc",
+            "HallsTriggerbe42db9f",
             {
               "Fn::Join": [
                 "",
                 [
-                  "AlertsFunc",
+                  "HallsTriggerbe42db9f",
                   "-",
                   {
                     "Ref": "env"
@@ -61,15 +65,6 @@
           "Variables": {
             "ENV": {
               "Ref": "env"
-            },
-            "REGION": {
-              "Ref": "AWS::Region"
-            },
-            "STORAGE_QUEUEALERTSDB_NAME": {
-              "Ref": "storageQueueAlertsDbName"
-            },
-            "STORAGE_QUEUEALERTSDB_ARN": {
-              "Ref": "storageQueueAlertsDbArn"
             }
           }
         },
@@ -79,7 +74,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Timeout": "25",
         "Code": {
           "S3Bucket": {
@@ -97,12 +92,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "scitechqueueLambdaRolefba3e234",
+            "HallsLambdaRolebe42db9f",
             {
               "Fn::Join": [
                 "",
                 [
-                  "scitechqueueLambdaRolefba3e234",
+                  "HallsLambdaRolebe42db9f",
                   "-",
                   {
                     "Ref": "env"
@@ -173,13 +168,13 @@
         }
       }
     },
-    "AmplifyResourcesPolicy": {
+    "HallsTriggerPolicy": {
       "DependsOn": [
         "LambdaExecutionRole"
       ],
       "Type": "AWS::IAM::Policy",
       "Properties": {
-        "PolicyName": "amplify-lambda-execution-policy",
+        "PolicyName": "lambda-trigger-policy-Halls",
         "Roles": [
           {
             "Ref": "LambdaExecutionRole"
@@ -191,27 +186,39 @@
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams"
               ],
               "Resource": [
                 {
-                  "Ref": "storageQueueAlertsDbArn"
+                  "Ref": "storageHallsStreamArn"
                 }
               ]
             }
           ]
         }
+      }
+    },
+    "HallsTrigger": {
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "DependsOn": [
+        "HallsTriggerPolicy"
+      ],
+      "Properties": {
+        "BatchSize": 100,
+        "Enabled": true,
+        "EventSourceArn": {
+          "Ref": "storageHallsStreamArn"
+        },
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "LambdaFunction",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "LATEST"
       }
     }
   },
@@ -232,6 +239,11 @@
     "Region": {
       "Value": {
         "Ref": "AWS::Region"
+      }
+    },
+    "LambdaExecutionRole": {
+      "Value": {
+        "Ref": "LambdaExecutionRole"
       }
     }
   }

@@ -1,55 +1,68 @@
 {
   "storage": {
-    "Halls": {
+    "hallsqueuedb": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "QueueAlertsDb": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }
   },
   "function": {
-    "HallsTriggerbe42db9f": {
+    "HallsQueueFunc": {
       "service": "Lambda",
       "providerPlugin": "awscloudformation",
       "build": true,
       "dependsOn": [
         {
           "category": "storage",
-          "resourceName": "Halls",
+          "resourceName": "hallsqueuedb",
           "attributes": [
             "Name",
-            "Arn",
-            "StreamArn"
+            "Arn"
           ]
         }
       ]
     },
-    "HallsFunc": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
+    "AlertsFunc": {
       "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
       "dependsOn": [
         {
           "category": "storage",
-          "resourceName": "Halls",
+          "resourceName": "QueueAlertsDb",
           "attributes": [
             "Name",
             "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
+          ]
         }
       ]
     }
   },
   "api": {
-    "HallsApi": {
+    "HallsQueueApi": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "HallsFunc",
+          "resourceName": "HallsQueueFunc",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "AlertsApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "AlertsFunc",
           "attributes": [
             "Name",
             "Arn"

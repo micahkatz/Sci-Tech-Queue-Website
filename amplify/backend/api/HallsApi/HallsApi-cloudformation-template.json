@@ -3,28 +3,22 @@
     "Description": "API Gateway resource stack creation using Amplify CLI",
     
     "Parameters": {
-        "authRoleName": {
-            "Type":  "String"
-        },
-        "unauthRoleName": {
-            "Type":  "String"
-        },
         "env": {
             "Type": "String"
         },
     
     
-          "functionHallsQueueFuncName": {
+          "functionHallsFuncName": {
             "Type": "String",
-            "Default": "functionHallsQueueFuncName"
+            "Default": "functionHallsFuncName"
           },
-        
+
           
-          "functionHallsQueueFuncArn": {
+          "functionHallsFuncArn": {
             "Type": "String",
-            "Default": "functionHallsQueueFuncArn"
+            "Default": "functionHallsFuncArn"
           }
-        
+
           
           
     
@@ -42,16 +36,17 @@
     "Resources": {
         
         
-      "HallsQueueApi": {
+        
+      "HallsApi": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "HallsQueueApi",
+          "Name": "HallsApi",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "HallsQueueApi"
+              "title": "HallsApi"
             },
             "host": {
                 "Fn::Join": [
@@ -79,7 +74,7 @@
                           }
                       ]
                   ]
-                } 
+                }
               ]
             },
             "schemes": [
@@ -87,7 +82,7 @@
             ],
             "paths": {
               
-              "/hallsqueue": {
+              "/prod/halls": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -172,8 +167,8 @@
                             ":lambda:path/2015-03-31/functions/",
                             
                             {
-                                
-                                "Ref": "functionHallsQueueFuncArn"
+
+                                "Ref": "functionHallsFuncArn"
                             },
                             
                             "/invocations"
@@ -186,7 +181,7 @@
                   }
                 }
               },
-              "/hallsqueue/{proxy+}": {
+              "/prod/halls/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -271,8 +266,8 @@
                           ":lambda:path/2015-03-31/functions/",
                           
                           {
-                            
-                            "Ref": "functionHallsQueueFuncArn"
+
+                            "Ref": "functionHallsFuncArn"
                           },
                           
                           "/invocations"
@@ -284,7 +279,7 @@
                     "type": "aws_proxy"
                   }
                 }
-              }   
+              }
               
             },
             "securityDefinitions": {
@@ -326,15 +321,15 @@
         }
       },
 
-                  
+      
         
-        
-        "functionHallsQueueFuncPermissionHallsQueueApi": {
+
+        "functionHallsFuncPermissionHallsApi": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functionHallsQueueFuncName"
+                        "Ref":  "functionHallsFuncName"
                     },
                     
                     "Action": "lambda:InvokeFunction",
@@ -353,7 +348,7 @@
                             },
                             ":",
                             {
-                                "Ref": "HallsQueueApi"
+                                "Ref": "HallsApi"
                             },
                             "/*/*/*"
                         ]
@@ -363,22 +358,22 @@
         },
         
         
-        
-      "DeploymentAPIGWHallsQueueApi": {
+
+      "DeploymentAPIGWHallsApiaf6eef4f": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
           "StageName": {
             "Fn::If": [
               "ShouldNotCreateEnvResources",
-              "Prod", 
+              "Prod",
               {
                 "Ref": "env"
-              } 
+              }
             ]
           },
           "RestApiId": {
-            "Ref": "HallsQueueApi"
+            "Ref": "HallsApi"
           }
         }
       }
@@ -386,11 +381,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "HallsQueueApi"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "HallsApi"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "HallsQueueApi"
+          "Value": "HallsApi"
+        },
+        "ApiId": {
+          "Description": "API ID (prefix of API URL)",
+          "Value": {"Ref": "HallsApi"}
         }
     }
   }

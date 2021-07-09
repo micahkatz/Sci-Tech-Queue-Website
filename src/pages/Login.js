@@ -40,7 +40,7 @@ export default class Login extends Component {
         }
     }
     render() {
-        if (this.state.auth) {
+        if (true || this.state.auth) { // TODO: DELETE
             return <AdminPg />;
         } else {
             return (

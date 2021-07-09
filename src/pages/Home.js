@@ -55,13 +55,14 @@ export default class Home extends Component {
         });
     }
     getHalls() {
-        GetHalls().then((res) => {
-            if (res) {
-                var hallsArray = res.data.Items;
+        GetHalls().then(({data}) => {
+            console.log({halls: data})
+            if (data) {
+                var hallsArray = data.Items;
                 hallsArray.sort((firstItem, secondItem) => {
                     return firstItem.position - secondItem.position;
                 });
-                console.log(res.data.Items, hallsArray);
+                console.log(data.Items, hallsArray);
                 this.setState({
                     halls: hallsArray,
                     lowerHalls: this.isLowerCamp(hallsArray),
@@ -79,10 +80,11 @@ export default class Home extends Component {
     }
     checkAlerts() {
         CheckAlerts().then((res) => {
+            console.log({alerts: res})
             try {
-                if (res) {
-                    if (res.data.Items[0]) {
-                        var alert = res.data.Items[0].type;
+                const {data}=res
+                    if (data && data.Items && data.Items[0]) {
+                        var alert = data.Items[0].type;
 
                         if (alert.includes('http')) {
                             if (this.lastAlert == alert) {
@@ -102,7 +104,7 @@ export default class Home extends Component {
                             alert: '',
                         });
                     }
-                }
+                
             } catch (e) {
                 console.log(e);
             }

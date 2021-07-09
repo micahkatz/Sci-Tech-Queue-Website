@@ -15,9 +15,9 @@ export default class Admin extends Component {
     this.getHalls = this.getHalls.bind(this)
   }
   getHalls(){
-    GetHalls().then((res) => {
-      if(res){
-        var hallsArray = res.data.Items
+    GetHalls().then(({data}) => {
+      if(data){
+        var hallsArray = data.Items
         hallsArray.sort((firstItem, secondItem) => {
           return firstItem.order - secondItem.order
         })

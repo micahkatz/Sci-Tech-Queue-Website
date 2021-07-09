@@ -1,0 +1,187 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-sci-tech-queue-scitech-143846-authRole",
+      "UnauthRoleArn": "arn:aws:iam::779616027319:role/amplify-sci-tech-queue-scitech-143846-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::779616027319:role/amplify-sci-tech-queue-scitech-143846-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
+      "UnauthRoleName": "amplify-sci-tech-queue-scitech-143846-unauthRole",
+      "StackName": "amplify-sci-tech-queue-scitech-143846",
+      "StackId": "arn:aws:cloudformation:us-east-1:779616027319:stack/amplify-sci-tech-queue-scitech-143846/1ec566f0-e024-11eb-bc50-0a90b79301c3",
+      "AmplifyAppId": "d2316j22u9dggt"
+    }
+  },
+  "storage": {
+    "hallsqueuedb": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-sci-tech-queue-scitech-143846-deployment/amplify-cfn-templates/storage/hallsqueuedb-cloudformation-template.json",
+        "logicalId": "storagehallsqueuedb"
+      },
+      "lastPushTimeStamp": "2021-07-09T15:55:26.965Z",
+      "output": {
+        "PartitionKeyName": "id",
+        "Region": "us-east-1",
+        "Arn": "arn:aws:dynamodb:us-east-1:779616027319:table/HallsQueue-scitech",
+        "PartitionKeyType": "S",
+        "Name": "HallsQueue-scitech"
+      },
+      "lastPushDirHash": "g/934STB6SA9BNgQhLRURper57E="
+    },
+    "QueueAlertsDb": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-sci-tech-queue-scitech-143846-deployment/amplify-cfn-templates/storage/QueueAlertsDb-cloudformation-template.json",
+        "logicalId": "storageQueueAlertsDb"
+      },
+      "lastPushTimeStamp": "2021-07-09T15:55:26.967Z",
+      "output": {
+        "PartitionKeyName": "id",
+        "Region": "us-east-1",
+        "Arn": "arn:aws:dynamodb:us-east-1:779616027319:table/Alerts-scitech",
+        "PartitionKeyType": "S",
+        "Name": "Alerts-scitech"
+      },
+      "lastPushDirHash": "v+c13IbPA1+9eNpPmYxLphXFa3w="
+    }
+  },
+  "function": {
+    "HallsQueueFunc": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "hallsqueuedb",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ],
+      "lastBuildTimeStamp": "2021-07-08T19:41:15.275Z",
+      "lastPackageTimeStamp": "2021-07-08T19:41:16.366Z",
+      "distZipFilename": "HallsQueueFunc-536e5235313438592f67-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
+        "s3Key": "amplify-builds/HallsQueueFunc-536e5235313438592f67-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-sci-tech-queue-scitech-143846-deployment/amplify-cfn-templates/function/HallsQueueFunc-cloudformation-template.json",
+        "logicalId": "functionHallsQueueFunc"
+      },
+      "lastPushTimeStamp": "2021-07-09T15:55:26.969Z",
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:779616027319:function:HallsQueueFunc-scitech",
+        "Name": "HallsQueueFunc-scitech"
+      },
+      "lastPushDirHash": "kY2loEE4a7OxOjnALZ2MktZpxsk="
+    },
+    "AlertsFunc": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "QueueAlertsDb",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ],
+      "lastBuildTimeStamp": "2021-07-08T19:41:15.276Z",
+      "lastPackageTimeStamp": "2021-07-08T19:41:16.381Z",
+      "distZipFilename": "AlertsFunc-396168476e32356c7a41-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
+        "s3Key": "amplify-builds/AlertsFunc-396168476e32356c7a41-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-sci-tech-queue-scitech-143846-deployment/amplify-cfn-templates/function/AlertsFunc-cloudformation-template.json",
+        "logicalId": "functionAlertsFunc"
+      },
+      "lastPushTimeStamp": "2021-07-09T15:55:26.971Z",
+      "output": {
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:779616027319:function:AlertsFunc-scitech",
+        "Name": "AlertsFunc-scitech"
+      },
+      "lastPushDirHash": "AfE4j/gmIX6u/coUjQAqoDlIyt4="
+    }
+  },
+  "api": {
+    "HallsQueueApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "HallsQueueFunc",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ],
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-sci-tech-queue-scitech-143846-deployment/amplify-cfn-templates/api/HallsQueueApi-cloudformation-template.json",
+        "logicalId": "apiHallsQueueApi"
+      },
+      "lastPushTimeStamp": "2021-07-09T15:55:26.972Z",
+      "output": {
+        "ApiName": "HallsQueueApi",
+        "RootUrl": "https://1exnx9g17d.execute-api.us-east-1.amazonaws.com/scitech"
+      },
+      "lastPushDirHash": "2NaW10ywuehunhfHJ6948b5WAlk="
+    },
+    "AlertsApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "AlertsFunc",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ],
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-sci-tech-queue-scitech-143846-deployment/amplify-cfn-templates/api/AlertsApi-cloudformation-template.json",
+        "logicalId": "apiAlertsApi"
+      },
+      "lastPushTimeStamp": "2021-07-09T15:55:26.974Z",
+      "output": {
+        "ApiName": "AlertsApi",
+        "RootUrl": "https://8uzp9oqnsl.execute-api.us-east-1.amazonaws.com/scitech"
+      },
+      "lastPushDirHash": "/iw3ADv248GgWqkBzW3SNyqU+kA="
+    }
+  },
+  "hosting": {
+    "S3AndCloudFront": {
+      "service": "S3AndCloudFront",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-sci-tech-queue-scitech-143846-deployment/amplify-cfn-templates/hosting/template.json",
+        "logicalId": "hostingS3AndCloudFront"
+      },
+      "lastPushTimeStamp": "2021-07-09T15:55:26.975Z",
+      "output": {
+        "S3BucketSecureURL": "https://scitech-queue-scitech.s3.amazonaws.com",
+        "WebsiteURL": "http://scitech-queue-scitech.s3-website-us-east-1.amazonaws.com",
+        "Region": "us-east-1",
+        "HostingBucketName": "scitech-queue-scitech"
+      },
+      "lastPushDirHash": "8H0egLPViUrOjKGVFpi8qJq2eQc="
+    }
+  }
+}

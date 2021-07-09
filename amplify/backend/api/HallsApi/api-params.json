@@ -1,0 +1,36 @@
+{
+    "paths": [
+        {
+            "name": "/prod/halls",
+            "lambdaFunction": "HallsFunc",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/prod/halls"
+        }
+    ],
+    "resourceName": "HallsApi",
+    "apiName": "HallsApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "HallsFunc"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-sci-tech-queue-scitech-143846-authRole",
+        "unAuthRoleName": "amplify-sci-tech-queue-scitech-143846-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "HallsFunc",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "af6eef4f"
+}

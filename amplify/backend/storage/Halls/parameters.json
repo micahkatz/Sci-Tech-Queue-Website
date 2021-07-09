@@ -1,5 +1,5 @@
 {
-    "tableName": "HallsQueue",
+    "tableName": "Halls",
     "partitionKeyName": "id",
     "partitionKeyType": "S"
 }

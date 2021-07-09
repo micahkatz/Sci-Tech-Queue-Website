@@ -1,23 +1,28 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Lambda resource stack creation using Amplify CLI",
+  "Description": "Lambda Function resource stack creation using Amplify CLI",
   "Parameters": {
-    "env": {
-      "Type": "String"
-    },
-    "storagehallsqueuedbName": {
+    "CloudWatchRule": {
       "Type": "String",
-      "Default": "storagehallsqueuedbName"
-    },
-    "storagehallsqueuedbArn": {
-      "Type": "String",
-      "Default": "storagehallsqueuedbArn"
+      "Default": "NONE",
+      "Description": " Schedule Expression"
     },
     "deploymentBucketName": {
       "Type": "String"
     },
+    "env": {
+      "Type": "String"
+    },
     "s3Key": {
       "Type": "String"
+    },
+    "storageHallsName": {
+      "Type": "String",
+      "Default": "storageHallsName"
+    },
+    "storageHallsArn": {
+      "Type": "String",
+      "Default": "storageHallsArn"
     }
   },
   "Conditions": {
@@ -38,16 +43,24 @@
         "aws:asset:property": "Code"
       },
       "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": {
+            "Ref": "s3Key"
+          }
+        },
         "Handler": "index.handler",
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "HallsQueueFunc",
+            "HallsFunc",
             {
               "Fn::Join": [
                 "",
                 [
-                  "HallsQueueFunc",
+                  "HallsFunc",
                   "-",
                   {
                     "Ref": "env"
@@ -64,12 +77,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "STORAGE_HALLSQUEUEDB_NAME": {
-              "Ref": "storagehallsqueuedbName"
-            },
-            "STORAGE_HALLSQUEUEDB_ARN": {
-              "Ref": "storagehallsqueuedbArn"
             }
           }
         },
@@ -79,16 +86,9 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
-        "Timeout": "25",
-        "Code": {
-          "S3Bucket": {
-            "Ref": "deploymentBucketName"
-          },
-          "S3Key": {
-            "Ref": "s3Key"
-          }
-        }
+        "Runtime": "nodejs14.x",
+        "Layers": [],
+        "Timeout": "25"
       }
     },
     "LambdaExecutionRole": {
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "scitechqueueLambdaRole792b97c8",
+            "scitechqueueLambdaRoledf5b355a",
             {
               "Fn::Join": [
                 "",
                 [
-                  "scitechqueueLambdaRole792b97c8",
+                  "scitechqueueLambdaRoledf5b355a",
                   "-",
                   {
                     "Ref": "env"
@@ -168,45 +168,32 @@
                   }
                 ]
               }
-            }
-          ]
-        }
-      }
-    },
-    "AmplifyResourcesPolicy": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "amplify-lambda-execution-policy",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
+            },
             {
               "Effect": "Allow",
               "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
+                "dynamodb:DescribeTable",
+                "dynamodb:GetItem",
                 "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
+                "dynamodb:Scan",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem"
               ],
               "Resource": [
                 {
-                  "Ref": "storagehallsqueuedbArn"
+                  "Ref": "storageHallsArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageHallsArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
                 }
               ]
             }
@@ -232,6 +219,11 @@
     "Region": {
       "Value": {
         "Ref": "AWS::Region"
+      }
+    },
+    "LambdaExecutionRole": {
+      "Value": {
+        "Ref": "LambdaExecutionRole"
       }
     }
   }
