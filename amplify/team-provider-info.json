@@ -19,7 +19,7 @@
         },
         "HallsFunc": {
           "deploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
-          "s3Key": "amplify-builds/HallsFunc-71734d782f6466505836-build.zip"
+          "s3Key": "amplify-builds/HallsFunc-3534426b476148435141-build.zip"
         }
       }
     }

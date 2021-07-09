@@ -55,8 +55,8 @@ export default class Home extends Component {
         });
     }
     getHalls() {
-        GetHalls().then(({data}) => {
-            console.log({halls: data})
+        GetHalls().then(({ data }) => {
+            console.log({ halls: data });
             if (data) {
                 var hallsArray = data.Items;
                 hallsArray.sort((firstItem, secondItem) => {
@@ -80,31 +80,30 @@ export default class Home extends Component {
     }
     checkAlerts() {
         CheckAlerts().then((res) => {
-            console.log({alerts: res})
+            console.log({ alerts: res });
             try {
-                const {data}=res
-                    if (data && data.Items && data.Items[0]) {
-                        var alert = data.Items[0].type;
+                const { data } = res;
+                if (data && data.Items && data.Items[0]) {
+                    var alert = data.Items[0].type;
 
-                        if (alert.includes('http')) {
-                            if (this.lastAlert == alert) {
-                                this.setState({ alert: '' });
-                            } else {
-                                this.setState({ alert });
-                            }
-
-                            this.lastAlert = alert;
+                    if (alert.includes('http')) {
+                        if (this.lastAlert == alert) {
+                            this.setState({ alert: '' });
                         } else {
-                            this.setState({
-                                alert,
-                            });
+                            this.setState({ alert });
                         }
+
+                        this.lastAlert = alert;
                     } else {
                         this.setState({
-                            alert: '',
+                            alert,
                         });
                     }
-                
+                } else {
+                    this.setState({
+                        alert: '',
+                    });
+                }
             } catch (e) {
                 console.log(e);
             }
@@ -159,7 +158,7 @@ export default class Home extends Component {
                 <div
                     key={idx}
                     style={{
-                        backgroundColor: data.called
+                        backgroundColor: data.isCalled
                             ? GLOBALS.orange
                             : GLOBALS.white,
                         marginBottom: 3,
@@ -173,7 +172,7 @@ export default class Home extends Component {
                         borderWidth: 2,
                         paddingBottom: 0,
                         borderStyle: 'solid',
-                        borderColor: data.called
+                        borderColor: data.isCalled
                             ? 'transparent'
                             : GLOBALS.orange,
                     }}
@@ -181,7 +180,9 @@ export default class Home extends Component {
                     <h1
                         className={'App-hall-title'}
                         style={{
-                            color: data.called ? GLOBALS.white : GLOBALS.orange,
+                            color: data.isCalled
+                                ? GLOBALS.white
+                                : GLOBALS.orange,
                         }}
                     >
                         {data.name}
@@ -194,7 +195,7 @@ export default class Home extends Component {
                 <div
                     key={idx}
                     style={{
-                        backgroundColor: data.called
+                        backgroundColor: data.isCalled
                             ? GLOBALS.orange
                             : GLOBALS.white,
                         marginBottom: 3,
@@ -208,7 +209,7 @@ export default class Home extends Component {
                         borderWidth: 2,
                         paddingBottom: 0,
                         borderStyle: 'solid',
-                        borderColor: data.called
+                        borderColor: data.isCalled
                             ? 'transparent'
                             : GLOBALS.orange,
                     }}
@@ -216,7 +217,9 @@ export default class Home extends Component {
                     <h1
                         className={'App-hall-title'}
                         style={{
-                            color: data.called ? GLOBALS.white : GLOBALS.orange,
+                            color: data.isCalled
+                                ? GLOBALS.white
+                                : GLOBALS.orange,
                         }}
                     >
                         {data.name}

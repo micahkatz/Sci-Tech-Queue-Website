@@ -113,32 +113,13 @@ app.get(path + '/feed', function (req, res) {
  * HTTP Get method for calling a hall *
  ********************************/
 
-app.post(path + '/call' + hashKeyPath, function (req, res) {
-    var condition = {};
-    condition[partitionKeyName] = {
-        ComparisonOperator: 'EQ',
-    };
-
-    if (userIdPresent && req.apiGateway) {
-        condition[partitionKeyName]['AttributeValueList'] = [
-            req.apiGateway.event.requestContext.identity.cognitoIdentityId ||
-                UNAUTH,
-        ];
-    } else {
-        try {
-            condition[partitionKeyName]['AttributeValueList'] = [
-                convertUrlType(req.params[partitionKeyName], partitionKeyType),
-            ];
-        } catch (err) {
-            res.statusCode = 500;
-            res.json({ error: 'Wrong column type ' + err });
-        }
-    }
+app.post(path + '/call', function (req, res) {
+    const { id } = req.query;
 
     let updateParams = {
         TableName: tableName,
-        KeyConditions: condition,
-        UpdateExpression: 'set called = :r',
+        Key: { id },
+        UpdateExpression: 'set isCalled = :r',
         ExpressionAttributeValues: {
             ':r': true,
         },
