@@ -8,6 +8,9 @@ import Columns from 'react-columns';
 import LogoScreen from './LogoScreen';
 import AlertScreen from './AlertScreen';
 import ClockScreen from './ClockScreen';
+
+import Lottie from 'lottie-react';
+import loadingAnimation from '../assets/loadingAnimation.json';
 export default class Home extends Component {
     intervalID;
     constructor(props) {
@@ -21,6 +24,7 @@ export default class Home extends Component {
             s: 0,
             showLogo: false,
             alert: '',
+            loading: true,
         };
         this.lastAlert = '';
         this.getHalls = this.getHalls.bind(this);
@@ -76,6 +80,7 @@ export default class Home extends Component {
                 });
             }
         });
+        this.setState({ loading: false });
         this.checkAlerts();
     }
     checkAlerts() {
@@ -246,6 +251,8 @@ export default class Home extends Component {
             } else {
                 return <AlertScreen alert={this.state.alert} />;
             }
+        } else if (this.state.loading) {
+            return <Lottie animationData={loadingAnimation} />;
         } else {
             return (
                 <div>
