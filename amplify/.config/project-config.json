@@ -1,5 +1,8 @@
 {
-  "projectName": "sci-tech-queue",
+  "providers": [
+    "awscloudformation"
+  ],
+  "projectName": "scitechqueue",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
@@ -8,10 +11,7 @@
       "SourceDir": "src",
       "DistributionDir": "build",
       "BuildCommand": "npm run-script build",
-      "StartCommand": "yarn start"
+      "StartCommand": "npm run-script start"
     }
-  },
-  "providers": [
-    "awscloudformation"
-  ]
+  }
 }

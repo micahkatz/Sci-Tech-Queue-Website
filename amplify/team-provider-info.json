@@ -25,6 +25,17 @@
           "deploymentBucketName": "amplify-sci-tech-queue-scitech-143846-deployment",
           "s3Key": "amplify-builds/AlertsFunc-2f65346d59454f796c4a-build.zip"
         }
+      },
+      "storage": {
+        "Halls": {},
+        "Alerts": {}
+      },
+      "api": {
+        "HallsApi": {},
+        "AlertsApi": {}
+      },
+      "hosting": {
+        "S3AndCloudFront": {}
       }
     }
   }

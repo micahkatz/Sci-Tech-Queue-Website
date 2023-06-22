@@ -67,7 +67,7 @@ export default class Admin extends Component {
                 >
                     <img
                         src={
-                            'https://6pointsscitech.org/wp-content/uploads/sites/82/2016/07/6points-logo-final-east-768x325.jpg'
+                            'https://6pointsscitech.org/wp-content/uploads/sites/22/2021/12/Sci-tech_logo_hi-res.png'
                         }
                         alt='Logo'
                         style={{

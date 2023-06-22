@@ -1,104 +1,154 @@
 {
-  "storage": {
-    "Halls": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
+  "api": {
+    "AlertsApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "AlertsFunc"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     },
-    "Alerts": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
+    "HallsApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "HallsFunc"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     }
   },
   "function": {
-    "HallsTriggerbe42db9f": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
+    "AlertsFunc": {
       "build": true,
       "dependsOn": [
         {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
           "category": "storage",
-          "resourceName": "Halls",
+          "resourceName": "Alerts"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "HallsFunc": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "Halls"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "HallsTriggerbe42db9f": {
+      "build": true,
+      "dependsOn": [
+        {
           "attributes": [
             "Name",
             "Arn",
             "StreamArn"
-          ]
-        }
-      ]
-    },
-    "HallsFunc": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
-          "category": "storage",
-          "resourceName": "Halls",
-          "attributes": [
-            "Name",
-            "Arn"
           ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
-        }
-      ]
-    },
-    "AlertsFunc": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [
-        {
           "category": "storage",
-          "resourceName": "Alerts",
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "attributeEnvMap": {
-            "Name": "TABLE_NAME",
-            "Arn": "TABLE_ARN"
-          }
+          "resourceName": "Halls"
         }
-      ]
-    }
-  },
-  "api": {
-    "HallsApi": {
-      "service": "API Gateway",
+      ],
       "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "HallsFunc",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
-    },
-    "AlertsApi": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "AlertsFunc",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
+      "service": "Lambda"
     }
   },
   "hosting": {
     "S3AndCloudFront": {
-      "service": "S3AndCloudFront",
-      "providerPlugin": "awscloudformation"
+      "providerPlugin": "awscloudformation",
+      "service": "S3AndCloudFront"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_AlertsFunc_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AlertsFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_AlertsFunc_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AlertsFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HallsFunc_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HallsFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HallsFunc_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HallsFunc"
+        }
+      ]
+    },
+    "AMPLIFY_function_HallsTriggerbe42db9f_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HallsTriggerbe42db9f"
+        }
+      ]
+    },
+    "AMPLIFY_function_HallsTriggerbe42db9f_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HallsTriggerbe42db9f"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "Alerts": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "Halls": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }
